@@ -8,37 +8,41 @@
     {% else %}
       <div class="title font-weight-bold">{{entry.title}}</div>
       <div class="author">
-        {% for author in entry.author_array %}
-          {% if forloop.length == 1 %}
-            {% if author.last == "Jantarakasem" and author.first == "C" %}
-              <strong>{{author.last}}, {{author.first}}</strong>  {# Bold if name is Jantarakasem C #}
+        {% if entry.author_array %}
+          {% for author in entry.author_array %}
+            {% if forloop.length == 1 %}
+              {% if author.last == "Jantarakasem" and author.first == "C" %}
+                <strong>{{author.last}}, {{author.first}}</strong>  {# Bold if name is Jantarakasem C #}
+              {% else %}
+                {{author.last}}, {{author.first}}  {# Display normal author name #}
+              {% endif %}
             {% else %}
-              {{author.last}}, {{author.first}}  {# Display normal author name #}
+              {% unless forloop.last %}
+                {% if author.last == "Jantarakasem" and author.first == "C" %}
+                  <strong>{{author.last}}, {{author.first}}</strong>,  {# Bold if name is Jantarakasem C #}
+                {% else %}
+                  {% if site.data.coauthors[author.last] %}
+                    <a href="{{site.data.coauthors[author.last].url}}" target="_blank">{{author.last}}, {{author.first}}</a>,
+                  {% else %}
+                    {{author.last}}, {{author.first}},
+                  {% endif %}
+                {% endif %}
+              {% else %}
+                {% if author.last == "Jantarakasem" and author.first == "C" %}
+                  and <strong>{{author.last}}, {{author.first}}</strong>  {# Bold if name is Jantarakasem C #}
+                {% else %}
+                  {% if site.data.coauthors[author.last] %}
+                    and <a href="{{site.data.coauthors[author.last].url}}" target="_blank">{{author.last}}, {{author.first}}</a>
+                  {% else %}
+                    and {{author.last}}, {{author.first}}
+                  {% endif %}
+                {% endif %}
+              {% endunless %}
             {% endif %}
-          {% else %}
-            {% unless forloop.last %}
-              {% if author.last == "Jantarakasem" and author.first == "C" %}
-                <strong>{{author.last}}, {{author.first}}</strong>,  {# Bold if name is Jantarakasem C #}
-              {% else %}
-                {% if site.data.coauthors[author.last] %}
-                  <a href="{{site.data.coauthors[author.last].url}}" target="_blank">{{author.last}}, {{author.first}}</a>,
-                {% else %}
-                  {{author.last}}, {{author.first}},
-                {% endif %}
-              {% endif %}
-            {% else %}
-              {% if author.last == "Jantarakasem" and author.first == "C" %}
-                and <strong>{{author.last}}, {{author.first}}</strong>  {# Bold if name is Jantarakasem C #}
-              {% else %}
-                {% if site.data.coauthors[author.last] %}
-                  and <a href="{{site.data.coauthors[author.last].url}}" target="_blank">{{author.last}}, {{author.first}}</a>
-                {% else %}
-                  and {{author.last}}, {{author.first}}
-                {% endif %}
-              {% endif %}
-            {% endunless %}
-          {% endif %}
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+          No authors available.  {# Fallback message if no authors are present #}
+        {% endif %}
       </div>
 
       <div class="periodical">
@@ -110,4 +114,3 @@
     {% endif %}
   </div>
 </div>
-
