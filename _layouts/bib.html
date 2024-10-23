@@ -13,7 +13,7 @@
             {% if author.last == "Jantarakasem" and author.first == "C" %}
               <strong>{{author.last}}, {{author.first}}</strong>  {# Bold if name is Jantarakasem C #}
             {% else %}
-              {{author.last}}, {{author.first}}
+              {{author.last}}, {{author.first}}  {# Display normal author name #}
             {% endif %}
           {% else %}
             {% unless forloop.last %}
@@ -110,3 +110,4 @@
     {% endif %}
   </div>
 </div>
+
